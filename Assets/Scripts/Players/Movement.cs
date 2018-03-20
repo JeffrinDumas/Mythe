@@ -11,10 +11,8 @@ public class Movement : MonoBehaviour {
     private float _jump;
     private float _jumpStr = 8f;
 
-    private int _jumpAmnt = 2;
+    public int _jumpAmnt = 1;
 
-    private bool _grounded = false;
-    private bool _walled;
 
     private Rigidbody2D rby;
 
@@ -44,31 +42,9 @@ public class Movement : MonoBehaviour {
     void FixedUpdate()
     {
         float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
 
         rby.AddForce((Vector2.right * _currentSpeed) * x);
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (coll.gameObject.tag == "Floor")
-        {
-            _grounded = true;
-            _jumpAmnt = 2;
-        }     
 
-        if(coll.gameObject.tag == "Wall" && _jumpAmnt == 0)
-        {
-            _jumpAmnt++;
-        }
-
-    }
-
-    void OnCollisionExit2D(Collision2D coll)
-    {
-        if (coll.gameObject.tag == "Floor")
-        {
-            _grounded = false;
-        }
-    }
 }
