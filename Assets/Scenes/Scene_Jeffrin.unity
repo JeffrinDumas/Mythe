@@ -979,8 +979,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c267ec318f2cb34f84efb10398a6787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelInt: {fileID: 0}
   _player: {fileID: 1686674107}
-  _jumpAmnt: 2
+  _maxJumps: 1
+  _jumpAmnt: 1
 --- !u!114 &1686674114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,6 +996,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 0}
   dooropen: {fileID: 0}
+  _grounded: 0
+  _walled: 0
   _keys: 0
 --- !u!1 &1694427957
 GameObject:
@@ -1039,7 +1043,7 @@ GameObject:
   - component: {fileID: 1731701533}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Door
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
