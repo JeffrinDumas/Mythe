@@ -6,8 +6,8 @@ public class LevelInteractions : MonoBehaviour {
     public Movement movement;
     public DoorOpening dooropen;
     private GameObject door;
-    private bool _grounded = false;
-    private bool _walled = false;
+    public bool _grounded = false;
+    public bool _walled = false;
     private bool _doorOpening = false;
     public int _keys = 0;
     // Use this for initialization
@@ -18,10 +18,6 @@ public class LevelInteractions : MonoBehaviour {
         
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     void LateUpdate()
     {
@@ -37,14 +33,27 @@ public class LevelInteractions : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Floor")
         {
-            _grounded = true;
-            movement._jumpAmnt = 1;
+           _grounded = true;
         }
 
-        if (coll.gameObject.tag == "Wall" && movement._jumpAmnt == 0)
+        foreach (ContactPoint2D hitpos in coll.contacts)
         {
-            movement._jumpAmnt++;
+            // Debug.Log(hitpos.normal);
+            if (hitpos.normal.x == 1 || hitpos.normal.x == -1 && movement._jumpAmnt == 0)
+            {
+                movement._jumpAmnt = 1 ;
+            } else if (hitpos.normal.y == 1)
+            {
+                movement._jumpAmnt = 1;
+            }
+           
         }
+
+        if (coll.gameObject.tag == "Wall")
+        {
+            _walled = true;
+        }
+
 
         if (coll.gameObject.tag == "Door")
         {
@@ -55,8 +64,14 @@ public class LevelInteractions : MonoBehaviour {
         {
             _keys+=1;
             Destroy(coll.gameObject);
-            
         }
+
+      if(movement._jumpAmnt > movement._maxJumps)
+        {
+            movement._jumpAmnt = movement._maxJumps;
+        }
+   
+        
     }
 
     void OnCollisionExit2D(Collision2D coll)
@@ -64,6 +79,11 @@ public class LevelInteractions : MonoBehaviour {
         if (coll.gameObject.tag == "Floor")
         {
             _grounded = false;
+        }
+
+        if (coll.gameObject.tag == "Wall")
+        {
+            _walled = false;
         }
     }
 }

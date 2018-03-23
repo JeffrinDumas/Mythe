@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
+    public LevelInteractions levelInt;
+
     [SerializeField]
     private GameObject _player;
 
@@ -11,6 +13,7 @@ public class Movement : MonoBehaviour {
     private float _jump;
     private float _jumpStr = 8f;
 
+    public int _maxJumps = 1;
     public int _jumpAmnt = 1;
 
 
@@ -22,6 +25,7 @@ public class Movement : MonoBehaviour {
     void Start()
     {
         rby = gameObject.GetComponent<Rigidbody2D>();
+        levelInt = this.GetComponent<LevelInteractions>();
     }
 
     // Update is called once per frame
@@ -29,7 +33,7 @@ public class Movement : MonoBehaviour {
     {
     
 
-        if(_jumpAmnt != 0)
+        if(_jumpAmnt > 0 && levelInt._grounded == true || levelInt._walled == true)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
