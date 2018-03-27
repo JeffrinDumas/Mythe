@@ -6,7 +6,7 @@ public class Movement : MonoBehaviour {
     public LevelInteractions levelInt;
 
     [SerializeField]
-    private GameObject _player;
+    public GameObject _player;
 
     private float _maxSpeed;
     private float _currentSpeed = 10f;
@@ -33,12 +33,17 @@ public class Movement : MonoBehaviour {
     {
     
 
-        if(_jumpAmnt > 0 && levelInt._grounded == true || levelInt._walled == true)
+        if(_jumpAmnt > 0 && levelInt.grounded == true || _jumpAmnt > 0 && levelInt.walled == true)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
                 rby.velocity = new Vector2(rby.velocity.x, _jumpStr);
                 _jumpAmnt--;
+                levelInt._sticking = false;
+            }
+            else if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            {
+                levelInt._sticking = false;
             }
         }
 	}

@@ -5,26 +5,32 @@ using UnityEngine;
 public class LevelInteractions : MonoBehaviour {
     public Movement movement;
     public DoorOpening dooropen;
-    private GameObject door;
-    public bool _grounded = false;
-    public bool _walled = false;
-    private bool _doorOpening = false;
-    public int _keys = 0;
-    // Use this for initialization
+    public Timers timers;
+
+    private GameObject timer;
+
+    public bool grounded = false;
+    public bool walled = false;
+    public bool _sticking = false;
+
     void Start () {
-       movement = this.GetComponent<Movement>();
-        door = GameObject.FindGameObjectWithTag("Door");
-        dooropen = door.GetComponent<DoorOpening>();
+        timer = GameObject.FindGameObjectWithTag("TimerHandler");
+        timers = timer.GetComponent<Timers>();
+        movement = this.GetComponent<Movement>();
         
 	}
 	
 
     void LateUpdate()
     {
-        if(_doorOpening == true && _keys > 0)
-        {            
-            dooropen.SlideDoor();
-            _keys--; 
+        if (_sticking == true)
+        {
+            StartCoroutine(StickAndGlide());
+
+        }
+        else if(_sticking == false)
+        {
+            StopCoroutine(StickAndGlide());
         }
     }
 
@@ -33,12 +39,11 @@ public class LevelInteractions : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Floor")
         {
-           _grounded = true;
+           grounded = true;
         }
 
         foreach (ContactPoint2D hitpos in coll.contacts)
         {
-            // Debug.Log(hitpos.normal);
             if (hitpos.normal.x == 1 || hitpos.normal.x == -1 && movement._jumpAmnt == 0)
             {
                 movement._jumpAmnt = 1 ;
@@ -51,19 +56,8 @@ public class LevelInteractions : MonoBehaviour {
 
         if (coll.gameObject.tag == "Wall")
         {
-            _walled = true;
-        }
-
-
-        if (coll.gameObject.tag == "Door")
-        {
-            _doorOpening = true;
-        }
-
-        if (coll.gameObject.tag == "Key")
-        {
-            _keys+=1;
-            Destroy(coll.gameObject);
+            walled = true;
+            _sticking = true;
         }
 
       if(movement._jumpAmnt > movement._maxJumps)
@@ -78,12 +72,27 @@ public class LevelInteractions : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Floor")
         {
-            _grounded = false;
+            grounded = false;
         }
 
         if (coll.gameObject.tag == "Wall")
         {
-            _walled = false;
+            StartCoroutine(JumpWindow());
         }
     }
+
+    IEnumerator StickAndGlide()
+    {
+        movement._player.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+        yield return new WaitForSeconds(0.4f);
+        _sticking = false;
+    }
+
+    IEnumerator JumpWindow()
+    {
+        yield return new WaitForSeconds(0.15f);
+        walled = false;
+    }
+
+
 }
