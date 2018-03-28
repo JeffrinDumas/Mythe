@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Key
   - Door
+  - TimerHandler
   layers:
   - Default
   - TransparentFX
