@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This script will handle the switches and pressureplates, calls for their interracion
+/// This script will handle the switches and pressureplates, calls for their interacion
 /// By placing doors in the empty gameobject slot you link it.
-/// By checking one of the bools (up, down) the door will slide up or down.
+/// Place the object you want to move in the place of _obj in the inspector.
+/// _moveToValue is the value the object will move to.
+/// _movePerStep is the step amount it will take for the object to move to the _moveToValue location.
 /// </summary>
 
 public class Switches : MonoBehaviour {
@@ -13,38 +15,35 @@ public class Switches : MonoBehaviour {
     //gameObject
     [Header("GameObject")]
     [SerializeField]
+    [Tooltip("This is the gameobject that will move once actions are called")]
     private GameObject _obj;
 
     //Bools
-    [Header("Switches")]
-    public bool up;
-    public bool down;
-    public bool left;
-    public bool right;
-    public bool playerFound;
-    public bool buttonPressed;
+    [Header("Booleans")]
+    [SerializeField]
+    [Tooltip("This is a boolean, it gets checked if the player is found. DO NOT TOUCH THIS!!")]
+    private bool _playerFound;
+    [SerializeField]
+    [Tooltip("This is a boolean, it gets checked if the action button is pressed. DO NOT TOUCH THIS!!")]
+    private bool _buttonPressed;
 
     [Header("Vectors")]
     //vector2
-    public Vector2 moveValueX = new Vector2(0.1f, 0.0f);
-    public Vector2 moveValueY = new Vector2(0.0f, 0.1f);
+    [SerializeField]
+    [Tooltip("This is the position where the object will move to.")]
+    private Vector2 _moveToValue = new Vector2(0, 0);
     private Vector2 _objToMove;
     
     [Header("Ints and Floats")]
     //ints&floats
-        /*-------------------
-         * The float "moveObjByValue" is to move the object up/down/left/right with the given amount.
-         * It is a public to make it adjustable for each object, incase a bridge is made, or something else
-         * that needs a lower value then the standard 10f.
-         --------------------*/
-    [Tooltip("This is the value to object will move to, it only moves on it's x or y axis")]
-    public float moveObjToValue;
-    [Tooltip("This is the amount the object will move each step")]
-    public float movePerStep;
+    [Tooltip("This is the amount the object will move each step.")]
+    [SerializeField]
+    private float _movePerStep;
 
     void Start()
     {
         _objToMove = new Vector2(_obj.transform.position.x, _obj.transform.position.y);
+        _moveToValue = new Vector2(_moveToValue.x + _objToMove.x, _moveToValue.y + _objToMove.y);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -52,85 +51,40 @@ public class Switches : MonoBehaviour {
         Debug.Log("Collision found");
         if (other.gameObject.tag == "Player")
         {
-            playerFound = true;
-            Debug.Log("Player found: " + playerFound);
+            _playerFound = true;
+            Debug.Log("Player found: " + _playerFound);
         }
         else
         {
-            playerFound = false;
+            _playerFound = false;
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        _obj.transform.position = _objToMove;
+        //_obj.transform.position = _objToMove;
 
-        if (playerFound == true)
+        if (_playerFound == true)
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                buttonPressed = true;
+                _buttonPressed = true;
                 Debug.Log("Fire1 Pressed");
             }
         }
-        if (buttonPressed == true)
+        if (_buttonPressed == true)
         {
-            if (up == true)
-            {
-                Debug.Log(up);
-                Debug.Log(down);
-                Debug.Log(left);
-                Debug.Log(right);
-                ObjUp();
-            }
-            if (down == true)
-            {
-                Debug.Log(up);
-                Debug.Log(down);
-                Debug.Log(left);
-                Debug.Log(right);
-                ObjDown();
-            }
-            if (left == true)
-            {
-                Debug.Log(up);
-                Debug.Log(down);
-                Debug.Log(left);
-                Debug.Log(right);
-                ObjLeft();
-            }
-            if (right == true)
-            {
-                Debug.Log(up);
-                Debug.Log(down);
-                Debug.Log(left);
-                Debug.Log(right);
-                ObjRight();
-            }
+            StartCoroutine(MoveObject());
         }
     }
 
-    void ObjUp()
+    IEnumerator MoveObject()
     {
-        _objToMove.y = Mathf.Lerp(_objToMove.y, moveObjToValue, movePerStep);
-        Debug.Log("Up");
-    }
-
-    void ObjDown()
-    {
-        _objToMove.y = Mathf.Lerp(_objToMove.y, moveObjToValue, movePerStep);
-        Debug.Log("Down");
-    }
-
-    void ObjLeft()
-    {
-        _objToMove.x = Mathf.Lerp(_objToMove.x, moveObjToValue, movePerStep);
-        Debug.Log("Left");
-    }
-    
-    void ObjRight()
-    {
-        _objToMove.x = Mathf.Lerp(_objToMove.x, moveObjToValue, movePerStep);
-        Debug.Log("Right");
+        for (int i = 0; i < 20; i++)
+        {
+            _obj.transform.position = Vector2.Lerp(_obj.transform.position, _moveToValue, _movePerStep);
+            //yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
+        }
     }
 }
