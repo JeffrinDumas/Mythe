@@ -37,8 +37,20 @@ public class Movement : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
-                rby.velocity = new Vector2(rby.velocity.x, _jumpStr);
+                
                 _jumpAmnt--;
+                if(levelInt._leftHit == true)
+                {
+                    rby.velocity += new Vector2(2, _jumpStr);
+                }
+                else if(levelInt._rightHit == true)
+                {
+                    rby.velocity += new Vector2(-2, _jumpStr);
+                }
+                else
+                {
+                    rby.velocity = new Vector2(rby.velocity.x, _jumpStr);
+                }
                 levelInt._sticking = false;
             }
             else if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))

@@ -12,6 +12,8 @@ public class LevelInteractions : MonoBehaviour {
     public bool grounded = false;
     public bool walled = false;
     public bool _sticking = false;
+    public bool _leftHit = false;
+    public bool _rightHit = false;
 
     void Start () {
         timer = GameObject.FindGameObjectWithTag("TimerHandler");
@@ -51,6 +53,16 @@ public class LevelInteractions : MonoBehaviour {
             {
                 movement._jumpAmnt = 1;
             }
+
+            if(hitpos.normal.x == 1)
+            {
+                _leftHit = true;
+            }
+            else if(hitpos.normal.x == -1)
+            {
+                _rightHit = true;
+            }
+           
            
         }
 
@@ -58,6 +70,8 @@ public class LevelInteractions : MonoBehaviour {
         {
             walled = true;
             _sticking = true;
+
+            
         }
 
       if(movement._jumpAmnt > movement._maxJumps)
@@ -78,6 +92,11 @@ public class LevelInteractions : MonoBehaviour {
         if (coll.gameObject.tag == "Wall")
         {
             StartCoroutine(JumpWindow());
+
+            if (_leftHit == true || _rightHit == true)
+            {
+                StartCoroutine(DactivateBool());
+            }
         }
     }
 
@@ -94,5 +113,11 @@ public class LevelInteractions : MonoBehaviour {
         walled = false;
     }
 
+    IEnumerator DactivateBool()
+    {
+        yield return new WaitForSeconds(0.1f);
+        _leftHit = false;
+        _rightHit = false;
+    }
 
 }
