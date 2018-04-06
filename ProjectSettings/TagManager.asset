@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Floor
   - Wall
+  - Key
+  - Door
+  - TimerHandler
   layers:
   - Default
   - TransparentFX
