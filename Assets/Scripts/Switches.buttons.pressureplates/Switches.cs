@@ -12,13 +12,11 @@ using UnityEngine;
 
 public class Switches : MonoBehaviour {
 
-    //gameObject
     [Header("GameObject")]
     [SerializeField]
     [Tooltip("This is the gameobject that will move once actions are called")]
     private GameObject _obj;
 
-    //Bools
     [Header("Booleans")]
     [SerializeField]
     [Tooltip("This is a boolean, it gets checked if the player is found. DO NOT TOUCH THIS!!")]
@@ -26,24 +24,31 @@ public class Switches : MonoBehaviour {
     [SerializeField]
     [Tooltip("This is a boolean, it gets checked if the action button is pressed. DO NOT TOUCH THIS!!")]
     private bool _buttonPressed;
+    [Space]
+    [SerializeField]
+    [Tooltip("Only check this boolean if it's a pressure plate and not a switch, or button.")]
+    private bool _pressurePlate;
+    [SerializeField]
+    [Tooltip("Only check this when it's a moving platform that moves on the horizontal axis.")]
+    private bool _movingPlatformHorizontal;
 
     [Header("Vectors")]
-    //vector2
     [SerializeField]
     [Tooltip("This is the position where the object will move to.")]
     private Vector2 _moveToValue = new Vector2(0, 0);
+    private Vector2 _previousLocation = new Vector2(0, 0);
     private Vector2 _objToMove;
-    
-    [Header("Ints and Floats")]
-    //ints&floats
+
+    [Header("Numbers")]
     [Tooltip("This is the amount the object will move each step.")]
     [SerializeField]
     private float _movePerStep;
 
     void Start()
     {
-        _objToMove = new Vector2(_obj.transform.position.x, _obj.transform.position.y);
-        _moveToValue = new Vector2(_moveToValue.x + _objToMove.x, _moveToValue.y + _objToMove.y);
+        _objToMove = new Vector2(_obj.transform.localPosition.x, _obj.transform.localPosition.y);
+        _moveToValue = new Vector2(_moveToValue.x, _moveToValue.y);
+        _previousLocation = new Vector2(_obj.transform.localPosition.x, _obj.transform.localPosition.y);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -60,30 +65,60 @@ public class Switches : MonoBehaviour {
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            _playerFound = false;
+            Debug.Log("Player found: " + _playerFound);
+        }
+    }
+
     void FixedUpdate()
     {
-        //_obj.transform.position = _objToMove;
-
-        if (_playerFound == true)
+        if (_pressurePlate != true)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (_playerFound == true)
             {
-                _buttonPressed = true;
-                Debug.Log("Fire1 Pressed");
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    _buttonPressed = true;
+                    Debug.Log("Fire1 Pressed");
+                }
+            }
+            if (_buttonPressed == true)
+            {
+                StartCoroutine(MoveObject());
             }
         }
-        if (_buttonPressed == true)
+        else
         {
-            StartCoroutine(MoveObject());
+            if (_playerFound == true)
+            {
+                StartCoroutine(MoveObject());
+            }
+            else
+            {
+                StartCoroutine(ReturnObject());
+            }
         }
+        
     }
 
     IEnumerator MoveObject()
     {
         for (int i = 0; i < 20; i++)
         {
-            _obj.transform.position = Vector2.Lerp(_obj.transform.position, _moveToValue, _movePerStep);
-            //yield return new WaitForEndOfFrame();
+            _obj.transform.position = Vector2.Lerp(_obj.transform.localPosition, _moveToValue, _movePerStep);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+    
+    IEnumerator ReturnObject()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            _obj.transform.position = Vector2.Lerp(_obj.transform.localPosition, _previousLocation, _movePerStep);
             yield return new WaitForFixedUpdate();
         }
     }
