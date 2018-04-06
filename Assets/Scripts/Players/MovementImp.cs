@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class MovementImp : MonoBehaviour {
     public LevelInteractions levelInt;
 
     public Animator _anim;
 
-   
+    [SerializeField]
     public GameObject _player;
 
     private float _speedMultiplier = 1.7f;
     private float _speedRuductor = 0.1f;
     private float _maxSpeed = 20f;
-    public float _currentSpeed;
+    public  Vector2 _currentSpeed;
     public float _speed = 10f;
-
     private float _jump;
     private float _jumpStr = 8f;
 
@@ -28,34 +26,32 @@ public class Movement : MonoBehaviour {
 
     private Vector3 _currentPos;
     public bool isWalking;
-  
+
 
     // Use this for initialization
     void Start()
     {
-        
-        rby = gameObject.GetComponent<Rigidbody2D>();
+        rby = this.GetComponent<Rigidbody2D>();
         levelInt = this.GetComponent<LevelInteractions>();
-        _anim.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _currentSpeed = rby.velocity.x;
-        _anim.SetBool("isWalking", isWalking);
+        _currentSpeed = rby.velocity;
 
-        if(_jumpAmnt > 0 && levelInt.grounded == true || _jumpAmnt > 0 && levelInt.walled == true)
+
+        if (_jumpAmnt > 0 && levelInt.grounded == true || _jumpAmnt > 0 && levelInt.walled == true)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                
+
                 _jumpAmnt--;
-                if(levelInt._leftHit == true)
+                if (levelInt._leftHit == true)
                 {
                     rby.velocity += new Vector2(6, _jumpStr);
                 }
-                else if(levelInt._rightHit == true)
+                else if (levelInt._rightHit == true)
                 {
                     rby.velocity += new Vector2(-6, _jumpStr);
                 }
@@ -65,45 +61,35 @@ public class Movement : MonoBehaviour {
                 }
                 levelInt._sticking = false;
             }
-            else if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
             {
                 levelInt._sticking = false;
                 
+
             }
-                
+
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
             {
                 isWalking = true;
-               // _currentSpeed = 1;
-
-               // IncreaseSpeed();
-               // rby.position += new Vector2(_currentSpeed,0);
+              
+                rby.position += _currentSpeed;
             }
             else
             {
                 isWalking = false;
             }
 
-            if(_currentSpeed > 1) { 
-                 if(isWalking == false)
-                 {
-                    _currentSpeed = _currentSpeed * _speedRuductor;                              
-                 }
-                 else
-                 {
-                     return;
-                 }
-            }
-           
+         
         }
-	}
-
-    void FixedUpdate()
-    {
-        float x = Input.GetAxis("Horizontal");
-
-        rby.AddForce((Vector2.right * _speed) * x);
     }
 
- 
+    void ReduceSpeed()
+    {
+        _currentSpeed = _currentSpeed * _speedRuductor;
+    }
+
+    void IncreaseSpeed()
+    {
+        _currentSpeed *= _speedMultiplier;
+    }
 }

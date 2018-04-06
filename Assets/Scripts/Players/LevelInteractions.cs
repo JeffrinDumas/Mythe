@@ -27,12 +27,12 @@ public class LevelInteractions : MonoBehaviour {
     {
         if (_sticking == true)
         {
-            StartCoroutine(StickAndGlide());
+            StartCoroutine(timers.StickAndGlide());
 
         }
         else if(_sticking == false)
         {
-            StopCoroutine(StickAndGlide());
+            StopCoroutine(timers.StickAndGlide());
         }
     }
 
@@ -56,10 +56,12 @@ public class LevelInteractions : MonoBehaviour {
 
             if(hitpos.normal.x == 1)
             {
+                _sticking = true;
                 _leftHit = true;
             }
             else if(hitpos.normal.x == -1)
             {
+                _sticking = true;
                 _rightHit = true;
             }
            
@@ -68,10 +70,7 @@ public class LevelInteractions : MonoBehaviour {
 
         if (coll.gameObject.tag == "Wall")
         {
-            walled = true;
-            _sticking = true;
-
-            
+            walled = true;            
         }
 
       if(movement._jumpAmnt > movement._maxJumps)
@@ -91,33 +90,15 @@ public class LevelInteractions : MonoBehaviour {
 
         if (coll.gameObject.tag == "Wall")
         {
-            StartCoroutine(JumpWindow());
+            StartCoroutine(timers.JumpWindow());
 
             if (_leftHit == true || _rightHit == true)
             {
-                StartCoroutine(DactivateBool());
+                StartCoroutine(timers.DactivateBool());
             }
         }
     }
 
-    IEnumerator StickAndGlide()
-    {
-        movement._player.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
-        yield return new WaitForSeconds(0.4f);
-        _sticking = false;
-    }
-
-    IEnumerator JumpWindow()
-    {
-        yield return new WaitForSeconds(0.15f);
-        walled = false;
-    }
-
-    IEnumerator DactivateBool()
-    {
-        yield return new WaitForSeconds(0.1f);
-        _leftHit = false;
-        _rightHit = false;
-    }
+ 
 
 }
