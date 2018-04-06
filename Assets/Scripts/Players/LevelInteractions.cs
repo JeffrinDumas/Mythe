@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelInteractions : MonoBehaviour {
+public class LevelInteractions : MonoBehaviour
+{
     public Movement movement;
-    public DoorOpening dooropen;
     public Timers timers;
 
     private GameObject timer;
@@ -15,13 +15,14 @@ public class LevelInteractions : MonoBehaviour {
     public bool _leftHit = false;
     public bool _rightHit = false;
 
-    void Start () {
+    void Start()
+    {
         timer = GameObject.FindGameObjectWithTag("TimerHandler");
         timers = timer.GetComponent<Timers>();
         movement = this.GetComponent<Movement>();
-        
-	}
-	
+
+    }
+
 
     void LateUpdate()
     {
@@ -30,7 +31,7 @@ public class LevelInteractions : MonoBehaviour {
             StartCoroutine(timers.StickAndGlide());
 
         }
-        else if(_sticking == false)
+        else if (_sticking == false)
         {
             StopCoroutine(timers.StickAndGlide());
         }
@@ -41,44 +42,45 @@ public class LevelInteractions : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Floor")
         {
-           grounded = true;
+            grounded = true;
         }
 
         foreach (ContactPoint2D hitpos in coll.contacts)
         {
-            if (hitpos.normal.x == 1 || hitpos.normal.x == -1 && movement._jumpAmnt == 0)
+            if (hitpos.normal.x >= 0.7f || hitpos.normal.x <= -0.7f && movement._jumpAmnt == 0)
             {
-                movement._jumpAmnt = 1 ;
-            } else if (hitpos.normal.y == 1)
+                movement._jumpAmnt = 1;
+            }
+            else if (hitpos.normal.y >= 0.05)
             {
                 movement._jumpAmnt = 1;
             }
 
-            if(hitpos.normal.x == 1)
+            if (hitpos.normal.x >= 0.7)
             {
                 _sticking = true;
                 _leftHit = true;
             }
-            else if(hitpos.normal.x == -1)
+            else if (hitpos.normal.x <= -0.7)
             {
                 _sticking = true;
                 _rightHit = true;
             }
-           
-           
+
+
         }
 
         if (coll.gameObject.tag == "Wall")
         {
-            walled = true;            
+            walled = true;
         }
 
-      if(movement._jumpAmnt > movement._maxJumps)
+        if (movement._jumpAmnt > movement._maxJumps)
         {
             movement._jumpAmnt = movement._maxJumps;
         }
-   
-        
+
+
     }
 
     void OnCollisionExit2D(Collision2D coll)
@@ -99,6 +101,6 @@ public class LevelInteractions : MonoBehaviour {
         }
     }
 
- 
+
 
 }
