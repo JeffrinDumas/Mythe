@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour {
     private Transform _target;
 
     private float _followSpeed = 10f;
-    private Vector3 _offset = new Vector3(0, 1.5f, -100f);
+    private Vector3 _offset = new Vector3(0, 1.5f, -10f);
 
 
     void LateUpdate()

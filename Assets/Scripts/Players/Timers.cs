@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Timers : MonoBehaviour {
     public LevelInteractions levelInt;
-    public Movement movement;
+    public NewMovement movement;
 
 
     private GameObject player;
@@ -15,7 +15,7 @@ public class Timers : MonoBehaviour {
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        movement = player.GetComponent<Movement>();
+        movement = player.GetComponent<NewMovement>();
 
         levelInt = player.GetComponent<LevelInteractions>();
        
