@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class LevelInteractions : MonoBehaviour
 {
-    public Movement movement;
+    public NewMovement movement;
     public Timers timers;
+    public RaycastCollission raycast;
 
     private GameObject timer;
+    private GameObject raycaster;
+
 
     public bool grounded = false;
     public bool walled = false;
@@ -19,10 +22,21 @@ public class LevelInteractions : MonoBehaviour
     {
         timer = GameObject.FindGameObjectWithTag("TimerHandler");
         timers = timer.GetComponent<Timers>();
-        movement = this.GetComponent<Movement>();
+        movement = this.GetComponent<NewMovement>();
+        raycast = this.GetComponent<RaycastCollission>();
 
     }
 
+    void Update()
+    {
+        if (raycast.collisionDown == true)
+        {
+            grounded = true;
+        }else
+        {
+            grounded = false;
+        }
+    }
 
     void LateUpdate()
     {
@@ -35,15 +49,13 @@ public class LevelInteractions : MonoBehaviour
         {
             StopCoroutine(timers.StickAndGlide());
         }
-    }
 
+     
+    }    
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Floor")
-        {
-            grounded = true;
-        }
+    
 
         foreach (ContactPoint2D hitpos in coll.contacts)
         {
@@ -51,23 +63,21 @@ public class LevelInteractions : MonoBehaviour
             {
                 movement._jumpAmnt = 1;
             }
-            else if (hitpos.normal.y >= 0.05)
+            else if (hitpos.normal.y >= 0.05 && coll.gameObject.tag != "Player")
             {
                 movement._jumpAmnt = 1;
             }
-
-            if (hitpos.normal.x >= 0.7)
+   
+            if (hitpos.normal.x >= 0.7 && coll.gameObject.tag != "Player")
             {
                 _sticking = true;
                 _leftHit = true;
             }
-            else if (hitpos.normal.x <= -0.7)
+            else if (hitpos.normal.x <= -0.7 && coll.gameObject.tag != "Player")
             {
                 _sticking = true;
                 _rightHit = true;
             }
-
-
         }
 
         if (coll.gameObject.tag == "Wall")
@@ -85,10 +95,7 @@ public class LevelInteractions : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Floor")
-        {
-            grounded = false;
-        }
+  
 
         if (coll.gameObject.tag == "Wall")
         {
@@ -100,7 +107,4 @@ public class LevelInteractions : MonoBehaviour
             }
         }
     }
-
-
-
 }
