@@ -24,7 +24,8 @@ public class NewMovement : MonoBehaviour {
     private Rigidbody2D rby;
 
     private Vector3 _currentPos;
-    public bool isWalking;
+    private bool _isWalking;
+    public bool _isJumping;
 
     void Start () {
         rby = gameObject.GetComponent<Rigidbody2D>();
@@ -35,11 +36,12 @@ public class NewMovement : MonoBehaviour {
 
     void Update()
     {
+        _anim.SetBool("isWalking", _isWalking);
+        _anim.SetBool("isJumping", _isJumping);
         if (_jumpAmnt > 0 && raycast.collisionDown == true || _jumpAmnt > 0 && levelInt.walled == true)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-
                 _jumpAmnt--;
                 if (levelInt._leftHit == true)
                 {
@@ -62,7 +64,7 @@ public class NewMovement : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
             {
-                isWalking = true;
+                _isWalking = true;
                 // _currentSpeed = 1;
 
                 // IncreaseSpeed();
@@ -70,8 +72,16 @@ public class NewMovement : MonoBehaviour {
             }
             else
             {
-                isWalking = false;
+                _isWalking = false;
             }
+        }
+        if(raycast.collisionDown == true && Input.GetKey(KeyCode.W))
+        {
+            _isJumping = true;
+        }
+        else
+        {
+            _isJumping = false;
         }
     }
 
@@ -80,13 +90,15 @@ public class NewMovement : MonoBehaviour {
       if(raycast.collisionDown == true)
         {
             MoveInput();
+            
         }
         else
         {
+            
             return;
         }
 
-      if(isWalking == false && raycast.collisionDown == true)
+      if(_isWalking == false && raycast.collisionDown == true)
         {
             rby.velocity =  new Vector2(rby.velocity.x * _speedRuductor,rby.velocity.y);
             
