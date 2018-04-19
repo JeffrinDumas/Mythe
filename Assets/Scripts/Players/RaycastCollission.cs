@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class RaycastCollission : MonoBehaviour {
     public LayerMask groundLayer;
+    public Animator _anim;
     // Use this for initialization
     public float rayDistance;
 
@@ -15,20 +16,32 @@ public class RaycastCollission : MonoBehaviour {
     public bool showRays;
 
     public bool collisionDown;
+    private bool _isGrounded;
 
     void Start()
     {
         rayPoints = new List<GameObject>();
         getRays();
+        _anim.GetComponent<Animator>();
     }
 
     void Update()
     {
+        _anim.SetBool("isFalling", _isGrounded);
         checkCollision();
 
         if (showRays)
         {
             drawRaycast();
+        }
+
+        if(collisionDown == true)
+        {
+            _isGrounded = true;
+        }
+        else
+        {
+            _isGrounded = false;
         }
             
     }

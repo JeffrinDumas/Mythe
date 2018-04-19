@@ -7,6 +7,7 @@ public class LevelInteractions : MonoBehaviour
     public NewMovement movement;
     public Timers timers;
     public RaycastCollission raycast;
+    public Animator _anim;
 
     private GameObject timer;
     private GameObject raycaster;
@@ -18,23 +19,36 @@ public class LevelInteractions : MonoBehaviour
     public bool _leftHit = false;
     public bool _rightHit = false;
 
+    private bool _isFalling;
+
     void Start()
     {
         timer = GameObject.FindGameObjectWithTag("TimerHandler");
         timers = timer.GetComponent<Timers>();
         movement = this.GetComponent<NewMovement>();
         raycast = this.GetComponent<RaycastCollission>();
+        _anim.GetComponent<Animator>();
 
     }
 
     void Update()
     {
+        _anim.SetBool("isGrounded", _isFalling);
         if (raycast.collisionDown == true)
         {
             grounded = true;
         }else
         {
             grounded = false;
+        }
+
+        if(raycast.collisionDown == false && _sticking == false)
+        {
+            _isFalling = true;
+        }
+        else
+        {
+            _isFalling = false;
         }
     }
 
