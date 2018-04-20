@@ -269,6 +269,21 @@ Prefab:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212502075862901416, guid: e8a11c043d488504cbb31d168173b6f1,
+        type: 2}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114181795812054632, guid: e8a11c043d488504cbb31d168173b6f1,
+        type: 2}
+      propertyPath: raycast
+      value: 
+      objectReference: {fileID: 493074818}
+    - target: {fileID: 114181795812054632, guid: e8a11c043d488504cbb31d168173b6f1,
+        type: 2}
+      propertyPath: _anim
+      value: 
+      objectReference: {fileID: 493074817}
     m_RemovedComponents:
     - {fileID: 114455216112953100, guid: e8a11c043d488504cbb31d168173b6f1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e8a11c043d488504cbb31d168173b6f1, type: 2}
@@ -519,6 +534,7 @@ MonoBehaviour:
   _speed: 10
   _maxJumps: 1
   _jumpAmnt: 1
+  _isJumping: 0
 --- !u!95 &493074817 stripped
 Animator:
   m_PrefabParentObject: {fileID: 95104443970583448, guid: e8a11c043d488504cbb31d168173b6f1,
@@ -538,6 +554,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
+  _anim: {fileID: 493074817}
   rayDistance: 0.2
   rayPoints:
   - {fileID: 335428864}

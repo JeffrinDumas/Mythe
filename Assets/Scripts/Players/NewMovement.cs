@@ -22,13 +22,17 @@ public class NewMovement : MonoBehaviour {
     public int _jumpAmnt = 1;
 
     private Rigidbody2D rby;
+    private SpriteRenderer _rendy;
 
     private Vector3 _currentPos;
     private bool _isWalking;
     public bool _isJumping;
+   
+    
 
     void Start () {
         rby = gameObject.GetComponent<Rigidbody2D>();
+        _rendy = gameObject.GetComponent<SpriteRenderer>();
         levelInt = this.GetComponent<LevelInteractions>();
         _anim.GetComponent<Animator>();
         raycast = this.GetComponent<RaycastCollission>();
@@ -38,6 +42,8 @@ public class NewMovement : MonoBehaviour {
     {
         _anim.SetBool("isWalking", _isWalking);
         _anim.SetBool("isJumping", _isJumping);
+
+       
         if (_jumpAmnt > 0 && raycast.collisionDown == true || _jumpAmnt > 0 && levelInt.walled == true)
         {
             if (Input.GetKeyDown(KeyCode.W))
@@ -46,10 +52,12 @@ public class NewMovement : MonoBehaviour {
                 if (levelInt._leftHit == true)
                 {
                     rby.velocity += new Vector2(6, _jumpStr);
+                    _rendy.flipX = false;
                 }
                 else if (levelInt._rightHit == true)
                 {
                     rby.velocity += new Vector2(-6, _jumpStr);
+                    _rendy.flipX = true;
                 }
                 else
                 {
@@ -131,6 +139,15 @@ public class NewMovement : MonoBehaviour {
             {
                 rby.AddForce(new Vector2(this._maxSpeed, rby.velocity.y));
             }
+        }
+
+        if (x < 0)
+        {
+            _rendy.flipX = true;
+        }
+        else if(x > 0)
+        {
+            _rendy.flipX = false;
         }
     
     }
