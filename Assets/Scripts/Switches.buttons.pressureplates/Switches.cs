@@ -25,7 +25,7 @@ public class Switches : MonoBehaviour
     [SerializeField]
     private float _movePerStep;
 
-    private bool _playerFound;
+    private bool _playerFound = false;
     private bool _buttonPressed;
 
     private Vector2 _previousLocation = new Vector2(0, 0);
@@ -34,6 +34,7 @@ public class Switches : MonoBehaviour
     {
         _moveToValue = new Vector2(_moveToValue.x, _moveToValue.y);
         _previousLocation = new Vector2(_obj.transform.localPosition.x, _obj.transform.localPosition.y);
+        Debug.Log("Player Found: " + _playerFound);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -59,11 +60,11 @@ public class Switches : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (_pressurePlate != true)
+        if (!_pressurePlate)
         {
-            if (_playerFound == true)
+            if (_playerFound)
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
@@ -71,23 +72,23 @@ public class Switches : MonoBehaviour
                     Debug.Log("Fire1 Pressed");
                 }
             }
-            if (_buttonPressed == true)
+            if (_buttonPressed)
             {
                 StartCoroutine(MoveObject());
             }
         }
         else
         {
-            if (_playerFound == true)
+            if (_playerFound)
             {
                 StartCoroutine(MoveObject());
             }
             else
             {
                 StartCoroutine(ReturnObject());
+                print("returning object");
             }
         }
-
     }
 
     IEnumerator MoveObject()
@@ -95,7 +96,7 @@ public class Switches : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             _obj.transform.position = Vector2.Lerp(_obj.transform.localPosition, _moveToValue, _movePerStep);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -104,7 +105,7 @@ public class Switches : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             _obj.transform.position = Vector2.Lerp(_obj.transform.localPosition, _previousLocation, _movePerStep);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
         }
     }
 }
