@@ -11,12 +11,18 @@ public class RaycastCollission : MonoBehaviour {
     public List<GameObject> rayPoints;
     public List<Ray2D> rays;
     public List<Ray2D> raysDown;
+    public List<Ray2D> raysLeft;
+    public List<Ray2D> raysRight;
 
     public RaycastHit2D TileHit;
     public bool showRays;
 
     public bool collisionDown;
+    public bool collisionLeft;
+    public bool collisionRight;
     private bool _isGrounded;
+    
+    
 
     void Start()
     {
@@ -27,7 +33,7 @@ public class RaycastCollission : MonoBehaviour {
 
     void Update()
     {
-        _anim.SetBool("isFalling", _isGrounded);
+        
         checkCollision();
 
         if (showRays)
@@ -68,6 +74,8 @@ public class RaycastCollission : MonoBehaviour {
     void checkCollision()
     {
         List<Ray2D> raysDown = new List<Ray2D>();
+        List<Ray2D> raysLeft = new List<Ray2D>();
+        List<Ray2D> raysRight = new List<Ray2D>();
 
         TileHit = new RaycastHit2D();
 
@@ -77,8 +85,22 @@ public class RaycastCollission : MonoBehaviour {
             {
                 raysDown.Add(new Ray2D(new Vector2(rayPoints[i].gameObject.transform.position.x, rayPoints[i].gameObject.transform.position.y), -Vector2.up));
             }
+
+            if (rayPoints[i].gameObject.name == "left")
+            {
+                raysLeft.Add(new Ray2D(new Vector2(rayPoints[i].gameObject.transform.position.x, rayPoints[i].gameObject.transform.position.y), -Vector2.right));
+            }
+
+            if (rayPoints[i].gameObject.name == "right")
+            {
+                raysRight.Add(new Ray2D(new Vector2(rayPoints[i].gameObject.transform.position.x, rayPoints[i].gameObject.transform.position.y), Vector2.right));
+            }
         }
+
         collisionDown = checkCollision(raysDown);
+        collisionLeft = checkCollision(raysLeft);
+        collisionRight = checkCollision(raysRight);
+
     }
 
     void drawRaycast()
@@ -87,7 +109,15 @@ public class RaycastCollission : MonoBehaviour {
         {
             if (rayPoints[i].gameObject.name == "down")
                 Debug.DrawLine(rayPoints[i].gameObject.transform.position, new Vector3(rayPoints[i].gameObject.transform.position.x, rayPoints[i].gameObject.transform.position.y - rayDistance, rayPoints[i].gameObject.transform.position.z), Color.red);
+
+            if (rayPoints[i].gameObject.name == "left")
+                Debug.DrawLine(rayPoints[i].gameObject.transform.position, new Vector3(rayPoints[i].gameObject.transform.position.x - rayDistance, rayPoints[i].gameObject.transform.position.y, rayPoints[i].gameObject.transform.position.z), Color.red);
+
+            if (rayPoints[i].gameObject.name == "right")
+                Debug.DrawLine(rayPoints[i].gameObject.transform.position, new Vector3(rayPoints[i].gameObject.transform.position.x + rayDistance, rayPoints[i].gameObject.transform.position.y, rayPoints[i].gameObject.transform.position.z), Color.red);
         }
+
+       
     }
 
     bool checkCollision(List<Ray2D> rayList)
