@@ -13,20 +13,20 @@ public class NewMovement : MonoBehaviour {
     private float _acceleration = 10f;
     private float _speedRuductor = 0.85f;
     private float _maxSpeed = 15f;
-    public float _currentSpeed;
-    public float _speed = 10f;
+    private float _currentSpeed;
+    private float _speed = 10f;
     private float _jump;
-    public float _jumpStr;
+    private float _jumpStr = 10f;
 
-    public int _maxJumps = 1;
-    public int _jumpAmnt = 1;
+    private int _maxJumps = 1;
+    private int _jumpAmnt = 1;
 
     private Rigidbody2D rby;
     private SpriteRenderer _rendy;
 
     private Vector3 _currentPos;
     private bool _isWalking;
-    public bool _isJumping;
+    private bool _isJumping;
    
 
 
