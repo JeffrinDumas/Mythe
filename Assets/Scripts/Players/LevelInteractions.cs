@@ -124,16 +124,16 @@ public class LevelInteractions : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D coll)
     {
-       
+        if (_leftHit == true || _rightHit == true)
+        {
+            StartCoroutine(timers.DactivateBool());
+        }
 
         if (coll.gameObject.tag == "Wall")
         {
             StartCoroutine(timers.JumpWindow());
 
-            if (_leftHit == true || _rightHit == true)
-            {
-                StartCoroutine(timers.DactivateBool());
-            }
+           
         }
     }
 }
