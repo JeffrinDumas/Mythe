@@ -16,7 +16,7 @@ public class NewMovement : MonoBehaviour {
     public float _currentSpeed;
     public float _speed = 10f;
     private float _jump;
-    private float _jumpStr = 8f;
+    public float _jumpStr;
 
     public int _maxJumps = 1;
     public int _jumpAmnt = 1;
