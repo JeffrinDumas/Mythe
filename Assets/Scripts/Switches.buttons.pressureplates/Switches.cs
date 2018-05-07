@@ -26,6 +26,7 @@ public class Switches : MonoBehaviour
     private float _movePerStep;
 
     private bool _playerFound = false;
+    private bool _pushableFound = false;
     private bool _buttonPressed;
 
     private Vector2 _previousLocation = new Vector2(0, 0);
@@ -45,9 +46,10 @@ public class Switches : MonoBehaviour
             _playerFound = true;
             Debug.Log("Player found: " + _playerFound);
         }
-        else
+        if (other.gameObject.tag == "Pushable")
         {
-            _playerFound = false;
+            _pushableFound = true;
+            Debug.Log("Pushable found: " + _playerFound);
         }
     }
 
@@ -57,6 +59,11 @@ public class Switches : MonoBehaviour
         {
             _playerFound = false;
             Debug.Log("Player found: " + _playerFound);
+        }
+        if (other.gameObject.tag == "Pushable")
+        {
+            _pushableFound = false;
+            Debug.Log("Pushable found: " + _playerFound);
         }
     }
 
@@ -79,7 +86,7 @@ public class Switches : MonoBehaviour
         }
         else
         {
-            if (_playerFound)
+            if (_playerFound || _pushableFound)
             {
                 StartCoroutine(MoveObject());
             }
