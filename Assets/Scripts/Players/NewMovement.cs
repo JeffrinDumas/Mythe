@@ -28,7 +28,7 @@ public class NewMovement : MonoBehaviour {
     private bool _isWalking;
     public bool _isJumping;
    
-    
+
 
     void Start () {
         rby = gameObject.GetComponent<Rigidbody2D>();
@@ -42,9 +42,10 @@ public class NewMovement : MonoBehaviour {
     {
         _anim.SetBool("isWalking", _isWalking);
         _anim.SetBool("isJumping", _isJumping);
+     
 
-       
-        if (_jumpAmnt > 0 && raycast.collisionDown == true || _jumpAmnt > 0 && levelInt.walled == true)
+
+        if (_jumpAmnt > 0 && raycast.collisionDown == true || _jumpAmnt > 0 && levelInt._walled == true)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
