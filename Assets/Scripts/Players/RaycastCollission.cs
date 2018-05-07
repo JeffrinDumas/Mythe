@@ -40,15 +40,6 @@ public class RaycastCollission : MonoBehaviour {
         {
             drawRaycast();
         }
-
-        if(collisionDown == true)
-        {
-            _isGrounded = true;
-        }
-        else
-        {
-            _isGrounded = false;
-        }
             
     }
 
