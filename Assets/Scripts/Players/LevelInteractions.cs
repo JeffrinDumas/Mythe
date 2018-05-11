@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelInteractions : MonoBehaviour
 {
@@ -90,6 +91,10 @@ public class LevelInteractions : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
     
+        if(coll.gameObject.tag == "finish")
+        {
+            SceneManager.LoadScene(2);
+        }
 
         foreach (ContactPoint2D hitpos in coll.contacts)
         {
