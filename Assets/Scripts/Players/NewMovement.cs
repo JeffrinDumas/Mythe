@@ -9,12 +9,7 @@ public class NewMovement : MonoBehaviour {
     public Animator _anim;
 
     public GameObject _player;
-
-<<<<<<< HEAD
     private float _acceleration = 25f;
-=======
-    private float _acceleration = 10f;
->>>>>>> parent of ea3346c... Merge branch 'master' of https://github.com/JeffrinDumas/Mythe
     private float _speedRuductor = 0.85f;
     private float _maxSpeed = 15f;
     public float _currentSpeed;
@@ -33,9 +28,6 @@ public class NewMovement : MonoBehaviour {
     private bool _isWalking;
     public bool _isJumping;
    
-    
-
-
     void Start () {
         rby = gameObject.GetComponent<Rigidbody2D>();
         _rendy = gameObject.GetComponent<SpriteRenderer>();
@@ -50,17 +42,11 @@ public class NewMovement : MonoBehaviour {
     {
         _anim.SetBool("isWalking", _isWalking);
         _anim.SetBool("isJumping", _isJumping);
-<<<<<<< HEAD
-     
 
         if(_player.transform.position.y <= 0)
         {
             _player.transform.position = _startPos;
         }
-
-=======
->>>>>>> parent of ea3346c... Merge branch 'master' of https://github.com/JeffrinDumas/Mythe
-
        
         if (_jumpAmnt > 0 && raycast.collisionDown == true || _jumpAmnt > 0 && levelInt.walled == true)
         {

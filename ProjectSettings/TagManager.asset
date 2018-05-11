@@ -3,17 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Floor
-  - Wall
-  - Key
-  - Door
-  - TimerHandler
-<<<<<<< HEAD
-  - Pushable
-  - finish
-=======
->>>>>>> parent of ea3346c... Merge branch 'master' of https://github.com/JeffrinDumas/Mythe
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -23,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - ground
+  - 
   - 
   - 
   - 
