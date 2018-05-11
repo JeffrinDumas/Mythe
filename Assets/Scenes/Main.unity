@@ -3820,6 +3820,7 @@ Prefab:
       objectReference: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     - target: {fileID: 1576660470104642, guid: e8a11c043d488504cbb31d168173b6f1, type: 2}
       propertyPath: m_Layer
       value: 0
@@ -3878,6 +3879,8 @@ Prefab:
       objectReference: {fileID: 0}
 =======
 >>>>>>> 206e23ef4baab7907c23051ee378b2e3e09a9ec7
+=======
+>>>>>>> parent of 206e23e... UI
 =======
 >>>>>>> parent of 206e23e... UI
     m_RemovedComponents:
