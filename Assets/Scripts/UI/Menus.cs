@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Jeffrin Dumas
+/// </summary>
 public class Menus : MonoBehaviour
 {
     public GameObject panel;
