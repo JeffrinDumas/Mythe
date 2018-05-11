@@ -14,7 +14,7 @@ public class ShowUI : MonoBehaviour {
     //Turns the canvas off at the start.
     void Start()
     {
-
+        
         messageCanvas.enabled = false;
 
     }
@@ -22,16 +22,18 @@ public class ShowUI : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
-        {
+        {  
             MessageShow();
         }
     }
 
     public void MessageShow()
     {
-        messageCanvas.enabled = true;
-    }
 
+        messageCanvas.enabled = true;
+        
+    }
+    
     //Turns canvas off when player leaves collider.
     void OnTriggerExit2D(Collider2D other)
     {
