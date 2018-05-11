@@ -13,7 +13,7 @@ public class MenuButtons : MonoBehaviour {
 
     public void QuitGame()
     {
-        
+        Debug.Log("ghuit");
         Application.Quit();
     }
 }

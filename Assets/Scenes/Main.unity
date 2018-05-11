@@ -3821,6 +3821,9 @@ Prefab:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 0951465... Minor add
     - target: {fileID: 1576660470104642, guid: e8a11c043d488504cbb31d168173b6f1, type: 2}
       propertyPath: m_Layer
       value: 0
@@ -3865,24 +3868,24 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-=======
->>>>>>> 206e23ef4baab7907c23051ee378b2e3e09a9ec7
     - target: {fileID: 4212674890781724, guid: e8a11c043d488504cbb31d168173b6f1, type: 2}
       propertyPath: m_LocalPosition.z
       value: -99
       objectReference: {fileID: 0}
-<<<<<<< HEAD
     - target: {fileID: 114608480069431178, guid: e8a11c043d488504cbb31d168173b6f1,
         type: 2}
       propertyPath: rayDistance
       value: 0.13
       objectReference: {fileID: 0}
+<<<<<<< HEAD
 =======
 >>>>>>> 206e23ef4baab7907c23051ee378b2e3e09a9ec7
 =======
 >>>>>>> parent of 206e23e... UI
 =======
 >>>>>>> parent of 206e23e... UI
+=======
+>>>>>>> parent of 0951465... Minor add
     m_RemovedComponents:
     - {fileID: 114455216112953100, guid: e8a11c043d488504cbb31d168173b6f1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e8a11c043d488504cbb31d168173b6f1, type: 2}
