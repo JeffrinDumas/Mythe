@@ -20,9 +20,7 @@ public class LevelInteractions : MonoBehaviour
     public bool _leftHit = false;
     public bool _rightHit = false;
 
-    public bool _isFalling;
-    public bool _walled;
-
+    private bool _isFalling;
 
     void Start()
     {
@@ -36,34 +34,16 @@ public class LevelInteractions : MonoBehaviour
 
     void Update()
     {
-        _anim.SetBool("isGrounded", grounded);
-        _anim.SetBool("isWalled", _walled);
-        _anim.SetBool("isFalling", _isFalling);
-
+        _anim.SetBool("isGrounded", _isFalling);
         if (raycast.collisionDown == true)
         {
             grounded = true;
-        } else
+        }else
         {
             grounded = false;
         }
 
-        if (raycast.collisionLeft == true || raycast.collisionRight == true && raycast.collisionDown == false)
-        {
-           
-            
-                _walled = true;
-            }
-            else
-            {
-                _walled = false;
-            
-            
-        }
-    
-            
-
-        if(raycast.collisionDown == false && raycast.collisionLeft == false && raycast.collisionRight == false)
+        if(raycast.collisionDown == false && _sticking == false)
         {
             _isFalling = true;
         }
@@ -119,6 +99,11 @@ public class LevelInteractions : MonoBehaviour
             }
         }
 
+        if (coll.gameObject.tag == "Wall")
+        {
+            walled = true;
+        }
+
         if (movement._jumpAmnt > movement._maxJumps)
         {
             movement._jumpAmnt = movement._maxJumps;
@@ -129,16 +114,16 @@ public class LevelInteractions : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D coll)
     {
-        if (_leftHit == true || _rightHit == true)
-        {
-            StartCoroutine(timers.DactivateBool());
-        }
+  
 
         if (coll.gameObject.tag == "Wall")
         {
             StartCoroutine(timers.JumpWindow());
 
-           
+            if (_leftHit == true || _rightHit == true)
+            {
+                StartCoroutine(timers.DactivateBool());
+            }
         }
     }
 }

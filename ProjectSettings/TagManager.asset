@@ -9,8 +9,11 @@ TagManager:
   - Key
   - Door
   - TimerHandler
+<<<<<<< HEAD
   - Pushable
   - finish
+=======
+>>>>>>> parent of ea3346c... Merge branch 'master' of https://github.com/JeffrinDumas/Mythe
   layers:
   - Default
   - TransparentFX

@@ -10,13 +10,17 @@ public class NewMovement : MonoBehaviour {
 
     public GameObject _player;
 
+<<<<<<< HEAD
     private float _acceleration = 25f;
+=======
+    private float _acceleration = 10f;
+>>>>>>> parent of ea3346c... Merge branch 'master' of https://github.com/JeffrinDumas/Mythe
     private float _speedRuductor = 0.85f;
-    private float _maxSpeed = 42f;
-    private float _currentSpeed;
-    private float _speed = 10f;
+    private float _maxSpeed = 15f;
+    public float _currentSpeed;
+    public float _speed = 10f;
     private float _jump;
-    private float _jumpStr = 14f;
+    private float _jumpStr = 8f;
 
     public int _maxJumps = 1;
     public int _jumpAmnt = 1;
@@ -27,9 +31,9 @@ public class NewMovement : MonoBehaviour {
     private Vector3 _startPos;
     private Vector3 _currentPos;
     private bool _isWalking;
-    private bool _isJumping;
+    public bool _isJumping;
    
-
+    
 
 
     void Start () {
@@ -46,6 +50,7 @@ public class NewMovement : MonoBehaviour {
     {
         _anim.SetBool("isWalking", _isWalking);
         _anim.SetBool("isJumping", _isJumping);
+<<<<<<< HEAD
      
 
         if(_player.transform.position.y <= 0)
@@ -53,20 +58,23 @@ public class NewMovement : MonoBehaviour {
             _player.transform.position = _startPos;
         }
 
+=======
+>>>>>>> parent of ea3346c... Merge branch 'master' of https://github.com/JeffrinDumas/Mythe
 
-        if (_jumpAmnt > 0 && raycast.collisionDown == true || _jumpAmnt > 0 && levelInt._walled == true)
+       
+        if (_jumpAmnt > 0 && raycast.collisionDown == true || _jumpAmnt > 0 && levelInt.walled == true)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
                 _jumpAmnt--;
                 if (levelInt._leftHit == true && raycast.collisionDown == false)
                 {
-                    rby.velocity += new Vector2(15, _jumpStr);
+                    rby.velocity += new Vector2(6, _jumpStr);
                     _rendy.flipX = false;
                 }
                 else if (levelInt._rightHit == true && raycast.collisionDown == false) 
                 {
-                    rby.velocity += new Vector2(-15, _jumpStr);
+                    rby.velocity += new Vector2(-6, _jumpStr);
                     _rendy.flipX = true;
                 }
                 else

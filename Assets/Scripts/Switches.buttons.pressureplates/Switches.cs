@@ -25,8 +25,7 @@ public class Switches : MonoBehaviour
     [SerializeField]
     private float _movePerStep;
 
-    private bool _playerFound = false;
-    private bool _pushableFound = false;
+    private bool _playerFound;
     private bool _buttonPressed;
 
     private Vector2 _previousLocation = new Vector2(0, 0);
@@ -35,7 +34,6 @@ public class Switches : MonoBehaviour
     {
         _moveToValue = new Vector2(_moveToValue.x, _moveToValue.y);
         _previousLocation = new Vector2(_obj.transform.localPosition.x, _obj.transform.localPosition.y);
-        Debug.Log("Player Found: " + _playerFound);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -46,10 +44,9 @@ public class Switches : MonoBehaviour
             _playerFound = true;
             Debug.Log("Player found: " + _playerFound);
         }
-        if (other.gameObject.tag == "Pushable")
+        else
         {
-            _pushableFound = true;
-            Debug.Log("Pushable found: " + _playerFound);
+            _playerFound = false;
         }
     }
 
@@ -60,18 +57,13 @@ public class Switches : MonoBehaviour
             _playerFound = false;
             Debug.Log("Player found: " + _playerFound);
         }
-        if (other.gameObject.tag == "Pushable")
-        {
-            _pushableFound = false;
-            Debug.Log("Pushable found: " + _playerFound);
-        }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!_pressurePlate)
+        if (_pressurePlate != true)
         {
-            if (_playerFound)
+            if (_playerFound == true)
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
@@ -79,23 +71,23 @@ public class Switches : MonoBehaviour
                     Debug.Log("Fire1 Pressed");
                 }
             }
-            if (_buttonPressed)
+            if (_buttonPressed == true)
             {
                 StartCoroutine(MoveObject());
             }
         }
         else
         {
-            if (_playerFound || _pushableFound)
+            if (_playerFound == true)
             {
                 StartCoroutine(MoveObject());
             }
             else
             {
                 StartCoroutine(ReturnObject());
-                print("returning object");
             }
         }
+
     }
 
     IEnumerator MoveObject()
@@ -103,7 +95,7 @@ public class Switches : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             _obj.transform.position = Vector2.Lerp(_obj.transform.localPosition, _moveToValue, _movePerStep);
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -112,7 +104,7 @@ public class Switches : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             _obj.transform.position = Vector2.Lerp(_obj.transform.localPosition, _previousLocation, _movePerStep);
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
     }
 }
